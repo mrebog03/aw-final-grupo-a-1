@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <title>Gastos - Planificador del viaje</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="stylesheet" href="/assets/css/main.css">  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script type="module" src="./assets/js/gastos-main.js"></script>
+    <script type="module" src="./assets/js/user-main.js"></script>
+  </head>
+  <body class="gastos-page">
+    
+    <header class="header-dashboard">
+      <div class="header-top">
+        <div class="logo-area">
+          <img src="/assets/img/Bienvenida.png" alt="Logo">
+        </div>
+        <div class="tittle-area">
+          <h1>Planifica tus viajes en grupo</h1>
+        </div>
+        <div class="user-area" id="userMenuBtn">
+          <img src="/assets/img/userIcon.png" alt="Perfil de usuario">
+          <div class="menu-desplegable">
+            <a href="perfil.html"><i class="fa-solid fa-user"></i> Mi perfil</a>
+            <hr>
+            <a href="#" id="btn-logout" class="logout-link"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</a>
+          </div>
+        </div>
+      </div> 
+      <nav class="menu-area">
+        <ul id="main-menu"> 
+          <li><a href="#" data-url="viajes.html"><i class="fa-solid fa-house"></i> Inicio</a></li>
+          <li><a href="#" data-url="alojamientos.html"><i class="fa-solid fa-hotel"></i> Alojamientos</a></li>
+          <li><a href="#" data-url="actividades.html"><i class="fa-solid fa-person-hiking"></i> Actividades</a></li>
+          <li><a href="#" data-url="tareas.html"><i class="fa-solid fa-list-check"></i> Tareas</a></li>
+          <li><a href="#" data-url="gastos.html" class="active"><i class="fa-solid fa-coins"></i> Gastos</a></li>
+          <li><a href="#" data-url="detalles.html"><i class="fa-solid fa-magnifying-glass"></i> Detalles</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="main-content">
+      <div class="page-header">
+        <h3><i class="fa-solid fa-coins"></i> Gestión de Gastos</h3>
+      </div>
+
+      <div class="crear-gasto card">
+        <details>
+          <summary role="button" class="btn-primary"><i class="fa-solid fa-plus"></i> Crear nuevo gasto</summary>
+          <form name="gasto-create" class="form-container">
+            <fieldset>    
+              <div class="grid">
+                <input type="text" name="descripcion" placeholder="Descripción *" required>
+                <select name="viajeId" id="viaje-select" required>
+                  <option value="">Viaje</option>
+                </select>
+                <input type="number" name="cantidad" placeholder="Cantidad (€) *" step="0.01" required>
+                <select name="categoria" id="categoria" required>
+                  <option value="" selected disabled>Categoría</option>
+                  <option value="Transporte">Transporte</option>
+                  <option value="Alojamiento">Alojamiento</option>
+                  <option value="Comida">Comida</option>
+                  <option value="Actividad">Actividad</option>
+                  <option value="Otros">Otros</option>
+                </select>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn-success"><i class="fa-solid fa-plus"></i> Crear gasto</button>
+              </div>
+            </fieldset>
+          </form>
+        </details>
+      </div>
+      <div class="buscar-gastos">
+      <form name="gasto-search" id="searchForm">
+        <fieldset>
+          <div class="grid">
+            <select name="categoria" id="search-categoria">
+              <option value="">Seleccione una categoría</option>
+              <option value="Transporte">Transporte</option>
+              <option value="Alojamiento">Alojamiento</option>
+              <option value="Comida">Comida</option>
+              <option value="Actividad">Actividad</option>
+              <option value="Otros">Otros</option>
+            </select>
+            <select name="viaje" id="search-viaje">
+              <option value="">Seleccione un viaje</option>
+            </select>
+            <button type="submit" class="contrast"><i class="fa-solid fa-search"></i> Buscar</button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+      <div class="resultados-gastos card table-card">
+        <h2>Listado de gastos</h2>
+        <div id="gastos-results"></div>
+      </div>
+    </main>  
+  </body>
+</html>

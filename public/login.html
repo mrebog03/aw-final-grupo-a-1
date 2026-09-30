@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <title>Login - Gestor de viajes en grupo</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script type="module" src="./assets/js/user-main.js"></script>  
+  </head>
+  <body class="auth-page">
+    
+    <!-- LADO IZQUIERDO: Branding y Bienvenida -->
+    <div class="brand-container">
+      <div class="brand-content">
+        <h1>¡Planifica tus viajes en grupo!</h1>
+        <p>Organiza, comparte y disfruta sin preocupaciones.</p>
+        <img src="/assets/img/Bienvenida.png" alt="Emoticono relacionado con los viajes">
+      </div>
+    </div>
+
+    <!-- LADO DERECHO: Formulario de Login -->
+    <div class="form-container-wrapper">
+      <div class="login-container card">
+        <div class="login-header">
+          <h2>Bienvenido de nuevo</h2>
+          <p>Inicia sesión para continuar</p>
+        </div>
+        
+        <form id="loginForm">
+          <fieldset>
+            <label for="email">
+              Correo electrónico *
+              <input type="email" name="email" id="email" placeholder="ejemplo@correo.com" required>
+            </label>
+            
+            <label for="password">
+              Contraseña *
+              <input type="password" name="password" id="password" placeholder="••••••••" required>
+            </label>
+            
+            <button type="submit" class="btn-primary auth-btn">
+              <i class="fa-solid fa-right-to-bracket"></i> Iniciar sesión
+            </button>
+          </fieldset>
+        </form>
+        
+        <div class="auth-footer">
+          <p>¿No tienes cuenta? <a href="registro.html">Regístrate aquí</a></p>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

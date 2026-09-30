@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <title>Alojamientos - Planificador de Viajes</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script type="module" src="/assets/js/alojamientos-main.js"></script>
+    <script type="module" src="./assets/js/user-main.js"></script>
+  </head>
+  <body class="alojamientos-page">
+    
+    <header class="header-dashboard">
+      <div class="header-top">
+        <div class="logo-area">
+          <img src="/assets/img/Bienvenida.png" alt="Logo">
+        </div>
+        <div class="tittle-area">
+          <h1>Planifica tus viajes en grupo</h1>
+        </div>
+        <div class="user-area" id="userMenuBtn">
+          <img src="/assets/img/userIcon.png" alt="Perfil de usuario">
+          <div class="menu-desplegable">
+            <a href="perfil.html"><i class="fa-solid fa-user"></i> Mi perfil</a>
+            <hr>
+            <a href="#" id="btn-logout" class="logout-link"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</a>
+          </div>
+        </div>
+      </div>
+      <nav class="menu-area">
+        <ul id="main-menu">
+          <li><a href="#" data-url="viajes.html"><i class="fa-solid fa-house"></i> Inicio</a></li>
+          <li><a href="#" data-url="alojamientos.html" class="active"><i class="fa-solid fa-hotel"></i> Alojamientos</a></li>
+          <li><a href="#" data-url="actividades.html"><i class="fa-solid fa-person-hiking"></i> Actividades</a></li>
+          <li><a href="#" data-url="tareas.html"><i class="fa-solid fa-list-check"></i> Tareas</a></li>
+          <li><a href="#" data-url="gastos.html"><i class="fa-solid fa-coins"></i> Gastos</a></li>
+          <li><a href="#" data-url="detalles.html"><i class="fa-solid fa-magnifying-glass"></i> Detalles</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="main-content">
+      <div class="page-header">
+        <h3>Catálogo de Alojamientos</h3>
+      </div>
+
+      <div class="crear-alojamientos card" data-admin-only>
+        <details>
+          <summary role="button" class="btn-primary"><i class="fa-solid fa-plus"></i> Crear nuevo alojamiento</summary>
+          <form name="alojamiento-create" class="form-container">
+            <fieldset>
+              <div class="grid">
+                <input type="text" name="nombre" placeholder="Nombre *" required>
+                <input type="text" name="descripcion" placeholder="Descripción *" required>
+              </div>
+              <div class="grid">
+                <input type="text" name="ciudad" placeholder="Ciudad *" required>
+                <input type="text" name="direccion" placeholder="Dirección *" required>
+              </div>
+              <div class="grid">
+                <input type="number" name="capacidad" placeholder="Capacidad *" required>
+                <input type="number" name="precioNoche" placeholder="Precio por noche (€) *" step="0.01" required>
+              </div>
+              <div class="grid">
+                <div class="extras-container">
+                  <p>Extras incluidos:</p>
+                  <div class="grid-checkboxes">
+                    <label><input type="checkbox" name="extras" value="Wifi"> Wifi</label>
+                    <label><input type="checkbox" name="extras" value="Piscina"> Piscina</label>
+                    <label><input type="checkbox" name="extras" value="Desayuno"> Desayuno</label>
+                    <label><input type="checkbox" name="extras" value="Parking"> Parking</label>
+                    <label><input type="checkbox" name="extras" value="Aire Acond."> Aire Acond.</label>
+                    <label><input type="checkbox" name="extras" value="Gimnasio"> Gimnasio</label>
+                  </div>
+                </div>
+                <input type="text" name="imagenes" placeholder="URL de la imagen *" required>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn-success"><i class="fa-solid fa-save"></i> Guardar Alojamiento</button>
+              </div>
+            </fieldset>
+          </form>
+        </details>
+      </div>
+
+      <div class="buscar-alojamientos">
+        <h4>Buscar Alojamientos</h4>
+        <form id="searchForm">
+          <fieldset>
+            <div class="grid search-grid" style="margin-bottom: 15px;">
+              <input type="text" id="nombreBusqueda" name="nombre" placeholder="Nombre">
+              <input type="text" id="ciudad" name="ciudad" placeholder="Ciudad">
+              <input type="number" id="capacidad" name="capacidad" placeholder="Capacidad Mínima">
+              <button type="submit" class="btn-primary"><i class="fa-solid fa-search"></i> Buscar</button>
+            </div>
+            
+            <div class="extras-container">
+              <p style="font-size: 0.85rem; color: #718096; margin-bottom: 8px; font-weight: 600;">Filtrar por Extras:</p>
+              <div class="grid-checkboxes">
+                <label><input type="checkbox" name="extrasBusqueda" value="Wifi"> Wifi</label>
+                <label><input type="checkbox" name="extrasBusqueda" value="Piscina"> Piscina</label>
+                <label><input type="checkbox" name="extrasBusqueda" value="Desayuno"> Desayuno</label>
+                <label><input type="checkbox" name="extrasBusqueda" value="Parking"> Parking</label>
+                <label><input type="checkbox" name="extrasBusqueda" value="Aire Acond."> Aire Acond.</label>
+                <label><input type="checkbox" name="extrasBusqueda" value="Gimnasio"> Gimnasio</label>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+
+      <div class="resultados-alojamientos card table-card">
+        <h2>Listado de disponibilidad</h2>
+        <figure>
+          <table role="grid" class="modern-table">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Ciudad</th>
+                <th>Capacidad</th>
+                <th>Extras</th>
+                <th>Precio/Noche</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tablaAlojamientos">
+              <tr>
+                <td colspan="5" class="text-center loading-text">Cargando alojamientos...</td>
+              </tr>
+            </tbody>
+          </table>
+        </figure>
+      </div>
+    </main>
+    <div id="panel-reserva" class="card" style="display: none; border-top: 4px solid #5a67d8; margin-top: 20px;">
+      <header>
+        <h4>Completar Reserva</h4>
+        <button id="btn-cerrar-panel" class="secondary outline">X</button>
+      </header>
+      
+      <form id="form-reserva-alojamiento">
+        <input type="hidden" id="reserva-alojamiento-id">
+        
+        <fieldset>
+          <label>¿Para qué viaje es?
+            <select id="reserva-viaje" name="viaje" required>
+              <option value="" selected disabled>Cargando tus viajes...</option>
+            </select>
+          </label>
+
+          <div class="grid">
+            <label>Fecha de entrada
+              <input type="date" id="reserva-entrada" required>
+            </label>
+            <label>Fecha de salida
+              <input type="date" id="reserva-salida" required>
+            </label>
+          </div>
+
+          <div class="grid">
+            <label>Huespedes
+              <input type="number" id="reserva-huespedes" readonly style="background-color: #edf2f7; cursor: not-allowed;" required>
+            </label>
+            <label>Precio Total (€)
+              <input type="number" id="reserva-precio" step="0.01" min="0" required readonly style="background-color: #edf2f7; cursor: not-allowed;">
+            </label>
+          </div>
+        </fieldset>
+        
+        <button type="submit" class="btn-success">Confirmar Reserva</button>
+      </form>
+    </div>
+  </body>
+</html>

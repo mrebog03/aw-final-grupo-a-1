@@ -1,0 +1,37 @@
+services:
+  web:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "5500:5500"
+    env_file: "../.env"
+    restart: on-failure
+    depends_on:
+      database:
+        condition: service_healthy
+    volumes:
+      - ../src:/app/src
+      - ../public:/app/public
+
+  database:
+    image: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 12341234
+      MONGO_INITDB_DATABASE: aw-final-grupo-a-1
+    volumes:
+      - mongo-data:/data/db
+      - ./init-scripts:/docker-entrypoint-initdb.d:ro
+
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+volumes:
+  mongo-data:

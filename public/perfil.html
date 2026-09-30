@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mi perfil - Planificador de viajes</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script type="module" src="./assets/js/user-main.js"></script>
+</head>
+<body class="perfil-page">
+  <main class="container main-content">
+    <header class="page-header">
+      <h1><i class="fas fa-user-circle"></i> Mi Perfil</h1>
+    </header>
+
+    <div class="grid">
+      <section class="card perfil-info">
+        <h3><i class="fas fa-id-card"></i> Datos personales</h3>
+        <div class="info-group">
+          <label>Nombre completo</label>
+          <div class="info-value" id="perfil-nombre">Cargando...</div>
+        </div>
+        <div class="info-group">
+          <label>Correo electrónico</label>
+          <div class="info-value" id="perfil-email">Cargando...</div>
+        </div>
+        <div class="info-group">
+          <label>Rol de usuario</label>
+          <span class="badge" id="perfil-rol">Cargando...</span>
+        </div>
+      </section>
+      <section class="card perfil-viajes">
+        <h3><i class="fas fa-plane-departure"></i> Mis viajes</h3>
+        <div id="mis-viajes-list" class="viajes-grid"></div>
+      </section>
+    </div>
+    <div class="perfil-footer">
+      <a href="./viajes.html" class="outline"><i class="fas fa-arrow-left"></i> Volver a mis viajes</a>
+    </div>
+  </main>
+</body>

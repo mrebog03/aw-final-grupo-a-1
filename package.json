@@ -1,0 +1,26 @@
+{
+  "name": "aw-final-grupo-a-1",
+  "version": "1.0.0",
+  "description": "Planificador de viajes en grupo",
+  "main": "src/app.js",
+  "scripts": {
+    "build": "sass public/assets/css/main.scss public/assets/css/main.css",
+    "start": "node src/app.js",
+    "dev": "sass --watch public/assets/css/main.scss:public/assets/css/main.css & nodemon src/app.js"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongodb": "^7.2.0",
+    "mongoose": "^7.0.0",
+    "mongosh": "^2.8.3"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "nodemon": "^3.0.0",
+    "sass": "^1.99.0"
+  }
+}

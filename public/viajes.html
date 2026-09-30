@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <title>Viajes - Planificador del viaje</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="stylesheet" href="/assets/css/main.css">  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script type="module" src="./assets/js/viajes-main.js"></script>
+    <script type="module" src="./assets/js/user-main.js"></script>
+  </head>
+  <body class="viajes-page">
+    <header class="header-dashboard">
+      <div class="header-top">
+        <div class="logo-area">
+          <img src="/assets/img/Bienvenida.png" alt="Logo">
+        </div>
+        <div class="tittle-area">
+          <h1>Planifica tus viajes en grupo</h1>
+        </div>
+        <div class="user-area" id="userMenuBtn">
+          <img src="/assets/img/userIcon.png" alt="Perfil de usuario">
+          <div class="menu-desplegable">
+            <a href="perfil.html"><i class="fa-solid fa-user"></i> Mi perfil</a>
+            <hr>
+            <a href="#" id="btn-logout" class="logout-link"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</a>
+          </div>
+        </div>
+      </div> 
+      <nav class="menu-area">
+        <ul id="main-menu"> 
+          <li><a href="#" data-url="viajes.html" class="active"><i class="fa-solid fa-house"></i> Inicio</a></li>
+          <li><a href="#" data-url="alojamientos.html"><i class="fa-solid fa-hotel"></i> Alojamientos</a></li>
+          <li><a href="#" data-url="actividades.html"><i class="fa-solid fa-person-hiking"></i> Actividades</a></li>
+          <li><a href="#" data-url="tareas.html"><i class="fa-solid fa-list-check"></i> Tareas</a></li>
+          <li><a href="#" data-url="gastos.html"><i class="fa-solid fa-coins"></i> Gastos</a></li>
+          <li><a href="#" data-url="detalles.html"><i class="fa-solid fa-magnifying-glass"></i> Detalles</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main class="container main-content viajes-main-content">
+      <section id="viajes-formularios" class="viajes-seccion-formularios">
+        <article>
+          <header>
+            <h5 class="titulo-formulario"><i class="fa-solid fa-map-location-dot"></i> Planificar un nuevo destino</h5>
+          </header>
+          <form id="viaje-create">
+            <label for="destino">Destino del viaje
+              <input type="text" id="destino" name="destino" placeholder="Ej: Interrail Verano 2026" required>
+            </label>
+            <div class="grid">
+              <label for="fechaInicio">Fecha de inicio
+                <input type="date" id="fechaInicio" name="fechaInicio" required>
+              </label>
+              <label for="fechaFin">Fecha de finalización
+                <input type="date" id="fechaFin" name="fechaFin" required>
+              </label>
+            </div>
+            <button type="submit" class="contrast"><i class="fa-solid fa-plus"></i> Añadir viaje al grupo</button>
+          </form>
+        </article>
+        <article class="viaje-unirse">
+          <header>
+            <h5><i class="fa-solid fa-key"></i> Unirse a un viaje existente</h5>
+          </header>
+          <form id="viaje-join">
+            <label for="codigoViaje">Código de acceso al viaje
+              <input type="text" id="codigoViaje" name="codigo" placeholder="Ej: X7R2K9P1" maxlength="8" required style="text-transform: uppercase;">
+            </label>
+            <p>Introduce el código alfanumérico de 8 dígitos que te ha compartido el creador del viaje.</p>
+            <button type="submit"><i class="fa-solid fa-right-to-bracket"></i> Unirse al viaje</button>
+          </form>
+        </article>
+      </section>
+      <hr>
+      <div class="page-header resultados-header">
+        <h3><i class="fa-solid fa-compass"></i> Nuestros Destinos</h3>
+      </div>
+      <section id="viajes-results" class="seccion-resultados">
+        <div>
+          <aria-busy aria-label="Cargando tus viajes..."></aria-busy>
+          <p class="texto-conexion">Conectando con el planificador...</p>
+        </div>
+      </section>
+    </main>   
+  </body>
+</html>

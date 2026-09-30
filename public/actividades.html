@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <title>Actividades - Planificador del viaje</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="stylesheet" href="/assets/css/main.css">  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script type="module" src="./assets/js/actividades-main.js"></script>
+    <script type="module" src="./assets/js/user-main.js"></script>
+  </head>
+  <body class="viajes-page">
+    
+    <header class="header-dashboard">
+      <div class="header-top">
+        <div class="logo-area">
+          <img src="/assets/img/Bienvenida.png" alt="Logo">
+        </div>
+        <div class="tittle-area">
+          <h1>Planifica tus viajes en grupo</h1>
+        </div>
+        <div class="user-area" id="userMenuBtn">
+          <img src="/assets/img/userIcon.png" alt="Perfil de usuario">
+          <div class="menu-desplegable">
+            <a href="perfil.html"><i class="fa-solid fa-user"></i> Mi perfil</a>
+            <hr>
+            <a href="#" id="btn-logout" class="logout-link"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</a>
+          </div>
+        </div>
+      </div> 
+      <nav class="menu-area">
+        <ul id="main-menu"> 
+          <li><a href="#" data-url="viajes.html"><i class="fa-solid fa-house"></i> Inicio</a></li>
+          <li><a href="#" data-url="alojamientos.html"><i class="fa-solid fa-hotel"></i> Alojamientos</a></li>
+          <li><a href="#" data-url="actividades.html" class="active"><i class="fa-solid fa-person-hiking"></i> Actividades</a></li>
+          <li><a href="#" data-url="tareas.html"><i class="fa-solid fa-list-check"></i> Tareas</a></li>
+          <li><a href="#" data-url="gastos.html"><i class="fa-solid fa-coins"></i> Gastos</a></li>
+          <li><a href="#" data-url="detalles.html"><i class="fa-solid fa-magnifying-glass"></i> Detalles</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="main-content">
+  <div class="page-header">
+    <h3><i class="fa-solid fa-calendar-days"></i> Gestión de Actividades</h3>
+  </div>
+
+  <div class="card" data-admin-only>
+    <details>
+      <summary role="button" class="btn-primary">
+        <i class="fa-solid fa-plus"></i> Registrar Nueva Actividad
+      </summary>
+      <form id="actividad-create" name="actividad-create">
+        <fieldset>
+          <div class="grid">
+            <label>Nombre de la actividad
+              <input type="text" name="nombre" placeholder="Ej: Visita al Museo" required>
+            </label>
+            <label>Fecha
+              <input type="date" name="fecha" required>
+            </label>
+          </div>
+
+          <div class="grid">
+            <label>Lugar
+              <input type="text" name="lugar" placeholder="Ciudad o dirección" required>
+            </label>
+            <label>Precio estimado (€)
+              <input type="number" name="precio" step="0.01" placeholder="0.00" required>
+            </label>
+            <label>Capacidad (personas)
+              <input type="number" name="capacidad" placeholder="Ej: 20" required>
+            </label>
+          </div>
+
+          <label>Descripción
+            <textarea name="descripcion" placeholder="Detalles de la actividad..."></textarea>
+          </label>
+
+          <input type="hidden" name="imagenes" value="default.jpg">
+
+          <div class="form-actions">
+            <button type="submit" class="btn-success"><i class="fa-solid fa-save"></i> Guardar Actividad</button>
+          </div>
+        </fieldset>
+      </form>
+    </details>
+  </div>
+  
+  <div class="card table-card">
+    <header>
+      <strong><i class="fa-solid fa-list"></i> Actividades planificadas</strong>
+    </header>
+    <div id="actividades-results">
+      <table class="striped">
+        <thead>
+          <tr>
+            <th class="columna-ordenar" data-orden="nombre">
+              Actividad <span class="flecha-orden">▽</span>
+            </th>
+            
+            <th>Ubicación</th>
+            
+            <th class="columna-ordenar" data-orden="fecha">
+              Fecha <span class="flecha-orden">▽</span>
+            </th>
+            
+            <th class="columna-ordenar" data-orden="precio">
+              Precio <span class="flecha-orden">▽</span>
+            </th>
+            
+            <th class="columna-ordenar" data-orden="capacidad">
+              Cupos <span class="flecha-orden">▽</span>
+            </th>
+            
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="lista-actividades">
+          </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+  </body>
+</html>

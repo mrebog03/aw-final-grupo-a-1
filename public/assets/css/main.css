@@ -1,0 +1,939 @@
+@charset "UTF-8";
+/* ==========================================================================
+   1. VARIABLES GLOBALES Y TEMA
+   ========================================================================== */
+/* Sobrescribir variables nativas de Pico CSS */
+:root {
+  --pico-primary-background: #5a67d8;
+  --pico-primary-border: #5a67d8;
+  --pico-primary-hover-background: #4c51bf;
+  --pico-primary-hover-border: #4c51bf;
+  --pico-border-radius: 8px;
+  --pico-font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --pico-background-color: #f7fafc;
+  --pico-color: #2d3748;
+}
+
+/* ==========================================================================
+   2. RESET Y ESTRUCTURA BASE
+   ========================================================================== */
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: var(--pico-background-color);
+  color: var(--pico-color);
+}
+
+/* ==========================================================================
+   3. COMPONENTES COMUNES / UTILIDADES
+   ========================================================================== */
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 24px; /* Recupera el espacio amplio para que los campos no se peguen */
+  margin-bottom: 30px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.buscar-gastos, .buscar-tareas, .buscar-alojamientos {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 14px 24px;
+  margin-bottom: 30px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+.buscar-gastos form, .buscar-tareas form, .buscar-alojamientos form {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+.buscar-gastos form fieldset, .buscar-tareas form fieldset, .buscar-alojamientos form fieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+.buscar-gastos form, .buscar-tareas form, .buscar-alojamientos form {
+  /* Sacamos .grid fuera de fieldset para que afecte a ambos casos */
+}
+.buscar-gastos form .grid, .buscar-tareas form .grid, .buscar-alojamientos form .grid {
+  margin: 0;
+  display: grid;
+  align-items: center;
+  gap: 15px;
+}
+.buscar-gastos form .grid select,
+.buscar-gastos form .grid input,
+.buscar-gastos form .grid button, .buscar-tareas form .grid select,
+.buscar-tareas form .grid input,
+.buscar-tareas form .grid button, .buscar-alojamientos form .grid select,
+.buscar-alojamientos form .grid input,
+.buscar-alojamientos form .grid button {
+  margin-bottom: 0;
+  height: 100%;
+}
+.buscar-gastos form .grid button.contrast,
+.buscar-gastos form .grid button[type=submit].contrast, .buscar-tareas form .grid button.contrast,
+.buscar-tareas form .grid button[type=submit].contrast, .buscar-alojamientos form .grid button.contrast,
+.buscar-alojamientos form .grid button[type=submit].contrast {
+  background-color: #5a67d8;
+  border-color: #5a67d8;
+  color: white;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.buscar-gastos form .grid button.contrast:hover,
+.buscar-gastos form .grid button[type=submit].contrast:hover, .buscar-tareas form .grid button.contrast:hover,
+.buscar-tareas form .grid button[type=submit].contrast:hover, .buscar-alojamientos form .grid button.contrast:hover,
+.buscar-alojamientos form .grid button[type=submit].contrast:hover {
+  background-color: #4c51bf;
+  border-color: #4c51bf;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* ==========================================================================
+   4. LAYOUT: HEADER DASHBOARD (Estructura Global Pages)
+   ========================================================================== */
+.header-dashboard {
+  background: linear-gradient(135deg, #5a67d8 0%, #434190 100%);
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 40px;
+}
+.header-dashboard .header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 5%;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.header-dashboard .header-top .logo-area img {
+  max-width: 140px;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+.header-dashboard .header-top .logo-area img:hover {
+  transform: scale(1.05);
+}
+.header-dashboard .header-top .tittle-area h1 {
+  margin: 0;
+  color: white;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.header-dashboard .header-top .user-area {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  cursor: pointer;
+}
+.header-dashboard .header-top .user-area img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  transition: all 0.3s ease;
+}
+.header-dashboard .header-top .user-area:hover img {
+  border-color: white;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+.header-dashboard .header-top .user-area .menu-desplegable {
+  display: none;
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background-color: #ffffff;
+  min-width: 180px;
+  border-radius: 8px;
+  z-index: 1000;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+}
+.header-dashboard .header-top .user-area .menu-desplegable a {
+  color: #2d3748;
+  display: block;
+  padding: 12px 20px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+.header-dashboard .header-top .user-area .menu-desplegable a i {
+  margin-right: 8px;
+  color: #5a67d8;
+}
+.header-dashboard .header-top .user-area .menu-desplegable a:hover {
+  background-color: #edf2f7;
+  color: #5a67d8;
+}
+.header-dashboard .header-top .user-area .menu-desplegable a.logout-link i {
+  color: #f56565;
+}
+.header-dashboard .header-top .user-area .menu-desplegable hr {
+  margin: 0;
+  border-color: #edf2f7;
+}
+.header-dashboard .header-top .user-area:hover .menu-desplegable {
+  display: block;
+  animation: fadeIn 0.2s ease-in-out;
+}
+.header-dashboard .menu-area {
+  display: flex;
+  justify-content: center;
+  padding: 15px 0;
+}
+.header-dashboard .menu-area ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.header-dashboard .menu-area ul li a {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+.header-dashboard .menu-area ul li a i {
+  margin-right: 6px;
+}
+.header-dashboard .menu-area ul li a.active, .header-dashboard .menu-area ul li a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+.header-dashboard .menu-area ul li a.active {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+}
+
+/* ==========================================================================
+   5. VISTAS Y CONTENIDO PRINCIPAL (Estructura general de páginas de gestión)
+   ========================================================================== */
+.main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+.main-content .page-header {
+  margin-bottom: 24px;
+}
+.main-content .page-header h3 {
+  margin: 0;
+  color: #2d3748;
+  font-weight: 700;
+}
+.main-content {
+  /* Formulario de Creación (Alojamientos, Gastos, Tareas, etc.) */
+}
+.main-content .crear-alojamientos details,
+.main-content .crear-gasto details,
+.main-content .crear-tarea details,
+.main-content .card details {
+  margin-bottom: 0;
+  width: 100%;
+}
+.main-content .crear-alojamientos details summary[role=button],
+.main-content .crear-alojamientos details summary,
+.main-content .crear-gasto details summary[role=button],
+.main-content .crear-gasto details summary,
+.main-content .crear-tarea details summary[role=button],
+.main-content .crear-tarea details summary,
+.main-content .card details summary[role=button],
+.main-content .card details summary {
+  background-color: transparent;
+  color: #5a67d8;
+  border: 2px dashed #5a67d8;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+.main-content .crear-alojamientos details summary[role=button]:hover,
+.main-content .crear-alojamientos details summary:hover,
+.main-content .crear-gasto details summary[role=button]:hover,
+.main-content .crear-gasto details summary:hover,
+.main-content .crear-tarea details summary[role=button]:hover,
+.main-content .crear-tarea details summary:hover,
+.main-content .card details summary[role=button]:hover,
+.main-content .card details summary:hover {
+  background-color: rgba(90, 103, 216, 0.05);
+}
+.main-content .crear-alojamientos .form-container,
+.main-content .crear-alojamientos form,
+.main-content .crear-gasto .form-container,
+.main-content .crear-gasto form,
+.main-content .crear-tarea .form-container,
+.main-content .crear-tarea form,
+.main-content .card .form-container,
+.main-content .card form {
+  margin-top: 25px;
+}
+.main-content .crear-alojamientos .form-container .form-actions,
+.main-content .crear-alojamientos form .form-actions,
+.main-content .crear-gasto .form-container .form-actions,
+.main-content .crear-gasto form .form-actions,
+.main-content .crear-tarea .form-container .form-actions,
+.main-content .crear-tarea form .form-actions,
+.main-content .card .form-container .form-actions,
+.main-content .card form .form-actions {
+  display: block;
+  width: 100%;
+  margin-top: 15px;
+}
+.main-content .crear-alojamientos .form-container .form-actions .btn-success,
+.main-content .crear-alojamientos form .form-actions .btn-success,
+.main-content .crear-gasto .form-container .form-actions .btn-success,
+.main-content .crear-gasto form .form-actions .btn-success,
+.main-content .crear-tarea .form-container .form-actions .btn-success,
+.main-content .crear-tarea form .form-actions .btn-success,
+.main-content .card .form-container .form-actions .btn-success,
+.main-content .card form .form-actions .btn-success {
+  background-color: #48bb78;
+  border-color: #48bb78;
+  padding: 10px 24px;
+  align-items: center;
+  gap: 8px;
+}
+.main-content .crear-alojamientos .form-container .form-actions .btn-success:hover,
+.main-content .crear-alojamientos form .form-actions .btn-success:hover,
+.main-content .crear-gasto .form-container .form-actions .btn-success:hover,
+.main-content .crear-gasto form .form-actions .btn-success:hover,
+.main-content .crear-tarea .form-container .form-actions .btn-success:hover,
+.main-content .crear-tarea form .form-actions .btn-success:hover,
+.main-content .card .form-container .form-actions .btn-success:hover,
+.main-content .card form .form-actions .btn-success:hover {
+  background-color: #38a169;
+  border-color: #38a169;
+}
+.main-content {
+  /* Tablas de Resultados */
+}
+.main-content .table-card {
+  padding: 0;
+  overflow: hidden;
+}
+.main-content .table-card h2 {
+  padding: 24px 24px 0 24px;
+  margin-bottom: 15px;
+  font-size: 1.25rem;
+}
+.main-content .table-card header {
+  padding: 16px 24px;
+  background-color: transparent;
+  border-bottom: 1px solid #edf2f7;
+  margin: 0;
+}
+.main-content .table-card header strong {
+  color: #2d3748;
+  font-size: 1.05rem;
+  display: inline-block;
+}
+.main-content .table-card figure {
+  margin: 0;
+}
+.main-content .alojamientos-table,
+.main-content .gastos-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.main-content .alojamientos-table thead th,
+.main-content .gastos-table thead th {
+  background-color: #f1f5f9;
+  color: #718096;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  padding: 16px;
+  border-bottom: 2px solid #e2e8f0;
+}
+.main-content .alojamientos-table tbody td,
+.main-content .gastos-table tbody td {
+  padding: 16px;
+  vertical-align: middle;
+  border-bottom: 1px solid #edf2f7;
+  color: #2d3748;
+  font-size: 0.8rem;
+}
+.main-content .alojamientos-table tbody td.actions-cell,
+.main-content .gastos-table tbody td.actions-cell {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  border-bottom: 1px solid #edf2f7;
+}
+.main-content .alojamientos-table tbody td,
+.main-content .gastos-table tbody td {
+  /* Inputs de edición en tabla */
+}
+.main-content .alojamientos-table tbody td .input-editar,
+.main-content .gastos-table tbody td .input-editar {
+  width: 100%;
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid #5a67d8;
+  font-size: 0.85rem;
+  box-sizing: border-box;
+  margin: 0;
+  height: 40px;
+}
+.main-content .alojamientos-table tbody td .input-editar[type=number],
+.main-content .gastos-table tbody td .input-editar[type=number] {
+  text-align: left;
+  max-width: 80px;
+}
+.main-content .alojamientos-table tbody td .categoria-editar,
+.main-content .gastos-table tbody td .categoria-editar {
+  min-width: 100px;
+  cursor: pointer;
+}
+.main-content .alojamientos-table tbody td,
+.main-content .gastos-table tbody td {
+  /* Botones de Acción (Pills) */
+}
+.main-content .alojamientos-table tbody td button,
+.main-content .gastos-table tbody td button {
+  padding: 0 12px;
+  font-size: 0.85rem;
+  border-radius: 6px;
+  min-width: 100px;
+  height: 32px;
+  border: none;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: transform 0.2s, opacity 0.2s;
+  cursor: pointer;
+}
+.main-content .alojamientos-table tbody td button:hover,
+.main-content .gastos-table tbody td button:hover {
+  transform: translateY(-1px);
+  opacity: 0.9;
+}
+.main-content .alojamientos-table tbody td .boton-editar,
+.main-content .gastos-table tbody td .boton-editar {
+  background-color: #4299e1;
+  color: white;
+}
+.main-content .alojamientos-table tbody td .boton-eliminar,
+.main-content .gastos-table tbody td .boton-eliminar {
+  background-color: #f56565;
+  color: white;
+}
+.main-content .alojamientos-table tbody td .boton-reservar,
+.main-content .gastos-table tbody td .boton-reservar {
+  background-color: #48bb78;
+  color: white;
+}
+.main-content .alojamientos-table tbody tr:hover,
+.main-content .gastos-table tbody tr:hover {
+  background-color: #f8fafc;
+}
+.main-content .alojamientos-table .text-center,
+.main-content .gastos-table .text-center {
+  text-align: center;
+}
+.main-content .alojamientos-table .loading-text,
+.main-content .gastos-table .loading-text {
+  color: #718096;
+  font-style: italic;
+}
+.main-content .notificacion-gastos {
+  display: inline-block;
+  margin-left: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: #718096;
+}
+.main-content {
+  /* Componente unificado: Botones de Tarjetas de Viaje (Antes fragmentado) */
+}
+.main-content .grid-botones-viaje {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 8px;
+  width: 100%;
+  align-items: center;
+  margin-top: 15px;
+}
+.main-content .grid-botones-viaje a.button {
+  flex: 1 1 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  height: 40px;
+  text-decoration: none;
+  border-radius: var(--pico-border-radius, 8px);
+}
+.main-content .grid-botones-viaje a.button i {
+  margin-right: 10px;
+  display: inline-block;
+}
+.main-content .grid-botones-viaje button.boton-eliminar-viaje,
+.main-content .grid-botones-viaje .boton-eliminar-viaje {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 40px;
+  padding: 0;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.main-content .grid-botones-viaje button.boton-eliminar-viaje i,
+.main-content .grid-botones-viaje .boton-eliminar-viaje i {
+  margin: 0;
+}
+
+/* ==========================================================================
+   6. PÁGINA DE AUTENTICACIÓN (Login / Registro)
+   ========================================================================== */
+body.auth-page {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+  margin: 0;
+  background-color: var(--pico-background-color);
+  /* Lado Izquierdo: Branding */
+}
+body.auth-page .brand-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #5a67d8 0%, #434190 100%);
+  color: white;
+  padding: 40px;
+  text-align: center;
+}
+body.auth-page .brand-container .brand-content {
+  max-width: 500px;
+}
+body.auth-page .brand-container .brand-content h1 {
+  font-size: 2.5rem;
+  color: white;
+  margin-bottom: 10px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+body.auth-page .brand-container .brand-content p {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 40px;
+}
+body.auth-page .brand-container .brand-content img {
+  width: 100%;
+  max-width: 380px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.2));
+  transition: transform 0.4s ease;
+}
+body.auth-page .brand-container .brand-content img:hover {
+  transform: translateY(-8px);
+}
+body.auth-page {
+  /* Lado Derecho: Contenedor del Formulario */
+}
+body.auth-page .form-container-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #f7fafc;
+  height: 100%;
+}
+body.auth-page .form-container-wrapper .login-container {
+  width: 100%;
+  max-width: 360px;
+  padding: 30px 25px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  margin: auto;
+}
+body.auth-page .form-container-wrapper .login-container .login-header {
+  text-align: center;
+  margin-bottom: 15px;
+}
+body.auth-page .form-container-wrapper .login-container .login-header h2 {
+  margin: 0 0 5px 0;
+  font-size: 1.4rem;
+  color: #2d3748;
+  font-weight: 700;
+}
+body.auth-page .form-container-wrapper .login-container .login-header p {
+  margin: 0;
+  color: #718096;
+  font-size: 0.85rem;
+}
+body.auth-page .form-container-wrapper .login-container form {
+  margin-bottom: 0;
+}
+body.auth-page .form-container-wrapper .login-container form label {
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+}
+body.auth-page .form-container-wrapper .login-container form input {
+  margin-top: 4px;
+  margin-bottom: 10px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+body.auth-page .form-container-wrapper .login-container form input:focus {
+  background-color: white;
+  border-color: #5a67d8;
+  box-shadow: 0 0 0 3px rgba(90, 103, 216, 0.15);
+}
+body.auth-page .form-container-wrapper .login-container form .grid {
+  gap: 10px;
+}
+body.auth-page .form-container-wrapper .login-container form .auth-btn {
+  width: 100%;
+  padding: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-top: 5px;
+  border-radius: 8px;
+}
+body.auth-page .form-container-wrapper .login-container form .auth-btn i {
+  margin-right: 8px;
+}
+body.auth-page .form-container-wrapper .login-container .auth-footer {
+  text-align: center;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #edf2f7;
+}
+body.auth-page .form-container-wrapper .login-container .auth-footer p {
+  margin: 0;
+  color: #718096;
+  font-size: 0.85rem;
+}
+body.auth-page .form-container-wrapper .login-container .auth-footer a {
+  color: #5a67d8;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+body.auth-page .form-container-wrapper .login-container .auth-footer a:hover {
+  color: #4c51bf;
+  text-decoration: underline;
+}
+body.auth-page {
+  /* Responsive Auth */
+}
+@media (max-width: 850px) {
+  body.auth-page {
+    grid-template-columns: 1fr;
+  }
+  body.auth-page .brand-container {
+    padding: 40px 20px;
+  }
+  body.auth-page .brand-container .brand-content h1 {
+    font-size: 2rem;
+  }
+  body.auth-page .brand-container .brand-content img {
+    max-width: 250px;
+  }
+  body.auth-page .form-container-wrapper {
+    padding: 20px;
+  }
+  body.auth-page .form-container-wrapper .login-container {
+    padding: 30px 20px;
+  }
+}
+
+/* ==========================================================================
+   7. PÁGINA DE PERFIL (perfil.html)
+   ========================================================================== */
+.perfil-page .page-header {
+  margin-top: 2rem;
+}
+.perfil-page .page-header h1 {
+  color: #2d3748;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.perfil-page .page-header h1 i {
+  color: #5a67d8;
+}
+.perfil-page .card h3 {
+  font-size: 1.1rem;
+  border-bottom: 1px solid #edf2f7;
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  color: #5a67d8;
+}
+.perfil-page .info-group {
+  margin-bottom: 1.2rem;
+}
+.perfil-page .info-group label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #718096;
+  font-weight: 700;
+  margin-bottom: 4px;
+  display: block;
+}
+.perfil-page .info-group .info-value {
+  font-size: 1rem;
+  color: #2d3748;
+  font-weight: 500;
+  padding: 8px 12px;
+  background: #f8fafc;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+}
+.perfil-page .info-group .badge {
+  display: inline-block;
+  padding: 4px 12px;
+  background-color: rgba(90, 103, 216, 0.1);
+  color: #5a67d8;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.perfil-page .viajes-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 0;
+}
+.perfil-page .viajes-grid .viaje-item {
+  display: flex;
+  align-items: center;
+  padding: 4px 0;
+  border: none;
+  transition: color 0.2s ease;
+}
+.perfil-page .viajes-grid .viaje-item i {
+  color: #5a67d8;
+  margin-right: 8px;
+  font-size: 1.1rem;
+}
+.perfil-page .viajes-grid .viaje-item strong {
+  display: inline;
+  color: #2d3748;
+  margin-right: 6px;
+}
+.perfil-page .viajes-grid .viaje-item p {
+  display: inline;
+  font-size: 0.95rem;
+  color: #718096;
+  margin: 0;
+}
+.perfil-page .perfil-footer {
+  margin-top: 1rem;
+}
+.perfil-page .perfil-footer a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+@media (max-width: 768px) {
+  .perfil-page .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   8. PÁGINA DE VIAJES (viajes.html) Y DETALLES
+   ========================================================================== */
+.viajes-seccion-formularios {
+  margin-bottom: 40px;
+}
+.viajes-seccion-formularios article {
+  margin: 0 0 25px 0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--pico-muted-border-color);
+}
+.viajes-seccion-formularios article header {
+  background-color: var(--pico-card-background-color);
+  border-bottom: 1px solid var(--pico-muted-border-color);
+  padding: 12px 15px;
+}
+.viajes-seccion-formularios article header h5 {
+  margin: 0;
+  color: var(--pico-heading-color);
+}
+.viajes-seccion-formularios article header h5 i {
+  margin-right: 8px;
+}
+.viajes-seccion-formularios article form {
+  margin: 0;
+  padding: 12px 15px 15px 15px;
+}
+.viajes-seccion-formularios article form label {
+  margin-top: 0;
+}
+.viajes-seccion-formularios article form .grid {
+  margin-bottom: var(--pico-spacing);
+}
+.viajes-seccion-formularios article form p {
+  font-size: 0.85rem;
+  color: #718096;
+  margin-bottom: var(--pico-spacing);
+}
+.viajes-seccion-formularios article form button[type=submit] {
+  margin: 0;
+  background-color: #5a67d8;
+  border-color: #5a67d8;
+  color: white;
+  transition: transform 0.2s, background-color 0.2s;
+}
+.viajes-seccion-formularios article form button[type=submit] i {
+  margin-right: 8px;
+}
+.viajes-seccion-formularios article form button[type=submit]:hover {
+  background-color: #4c51bf;
+  border-color: #4c51bf;
+}
+
+/* Contenedor de Tarjetas de Destinos */
+.viajes-grid-dinamico {
+  display: grid;
+  /* Configuración auto-ajustable: 2 columnas en PC, 1 columna en pantallas estrechas */
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.viajes-grid-dinamico .viaje-card {
+  margin: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+.viajes-grid-dinamico .viaje-card header {
+  padding: 14px 20px;
+}
+.viajes-grid-dinamico .viaje-card .viaje-info {
+  padding: 15px 20px;
+  flex-grow: 1; /* Empuja el footer uniformemente hacia abajo */
+}
+.viajes-grid-dinamico .viaje-card .viaje-info p {
+  margin-bottom: 8px;
+}
+.viajes-grid-dinamico .viaje-card footer {
+  padding: 12px 20px;
+  background: rgba(0, 0, 0, 0.01);
+  box-sizing: border-box;
+}
+.viajes-grid-dinamico .viaje-card footer .grid-botones-viaje {
+  display: grid;
+  /* Definimos 3 columnas flexibles idénticas para los enlaces y 1 columna compacta de 42px para la papelera */
+  grid-template-columns: repeat(3, 1fr) 42px;
+  gap: 8px;
+  width: 100%;
+  align-items: center; /* Centra verticalmente los botones y el icono */
+}
+.viajes-grid-dinamico .viaje-card footer .grid-botones-viaje a.button {
+  margin: 0;
+  padding: 8px 4px;
+  font-size: 0.8rem;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  white-space: nowrap; /* Evita que el texto de los botones se rompa en dos filas */
+  width: 100%;
+}
+.viajes-grid-dinamico .viaje-card footer .grid-botones-viaje .boton-eliminar-viaje {
+  margin: 0;
+  padding: 8px;
+  height: 100%; /* Sincroniza la altura exacta con los enlaces adyacentes */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* Panel de Reservas Especial */
+.panel-reserva {
+  display: none;
+  border-top: 4px solid #5a67d8;
+  margin-top: 20px;
+}
+.panel-reserva header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: transparent;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #edf2f7;
+}
+.panel-reserva header h4 {
+  margin: 0;
+}
+.panel-reserva .btn-cerrar {
+  width: auto;
+  padding: 5px 12px;
+  margin: 0;
+  line-height: 1;
+}
+
+/* Detalles Placeholder */
+.detalles-placeholder {
+  text-align: center;
+  padding: 60px 20px;
+}
+.detalles-placeholder .icono-vuelo {
+  font-size: 3.5rem;
+  color: #5a67d8;
+  margin-bottom: 20px;
+  display: inline-block;
+}
+.detalles-placeholder h2 {
+  margin-bottom: 10px;
+  color: #2d3748;
+}
+.detalles-placeholder p {
+  color: #718096;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/*# sourceMappingURL=main.css.map */
